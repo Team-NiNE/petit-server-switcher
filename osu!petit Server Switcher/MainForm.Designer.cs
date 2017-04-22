@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace RippleServerSwitcher
+namespace PetitServerSwitcher
 {
     partial class MainForm
     {
@@ -150,7 +150,7 @@ namespace RippleServerSwitcher
             this.genuineTheme1.Size = new System.Drawing.Size(255, 202);
             this.genuineTheme1.SmartBounds = true;
             this.genuineTheme1.TabIndex = 0;
-            this.genuineTheme1.Text = "Ripple Server Switcher";
+            this.genuineTheme1.Text = "osu!petit Server Switcher";
             this.genuineTheme1.TransparencyKey = System.Drawing.Color.Fuchsia;
             // 
             // localButton
@@ -260,7 +260,7 @@ namespace RippleServerSwitcher
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(62, 13);
             this.label2.TabIndex = 6;
-            this.label2.Text = "Mirror IP:";
+            this.label2.Text = "petit!mirror IP:";
             // 
             // label1
             // 
@@ -271,7 +271,7 @@ namespace RippleServerSwitcher
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(63, 13);
             this.label1.TabIndex = 4;
-            this.label1.Text = "Ripple IP:";
+            this.label1.Text = "osu!petit IP:";
             // 
             // IPTextBox
             // 
@@ -423,7 +423,7 @@ namespace RippleServerSwitcher
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(199, 78);
             this.label4.TabIndex = 2;
-            this.label4.Text = "You are playing on a local server!\r\nThat\'s only for Ripple developers!\r\nYou won\'t" +
+            this.label4.Text = "You are playing on a local server!\r\nThat\'s only for osu!petit developers!\r\nYou won\'t" +
     " be able to connect\r\nif you leave the switcher in the\r\ncurrent state. Please pre" +
     "ss the\r\nLocal/Remote button.";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

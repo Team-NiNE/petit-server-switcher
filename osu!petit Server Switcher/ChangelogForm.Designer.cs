@@ -1,4 +1,4 @@
-﻿namespace RippleServerSwitcher
+﻿namespace PetitServerSwitcher
 {
     partial class ChangelogForm
     {

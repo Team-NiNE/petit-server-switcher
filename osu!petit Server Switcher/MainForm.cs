@@ -16,20 +16,21 @@ using System.Globalization;
 using System.Collections.Specialized;
 using System.Security.Cryptography.X509Certificates;
 using rss.Properties;
+using System.Resources;
 
-namespace RippleServerSwitcher
+namespace PetitServerSwitcher
 {
     public partial class MainForm : Form
     {
-        public bool ripple = false;
-        public string rippleIP = "163.172.154.65";  // memesys
-        public string mirrorIP = "176.31.250.187";  // zxq
+        public bool petit = false;
+        public string petitIP = "211.105.88.250";  // hoto.us
+        public string mirrorIP = "211.105.88.250";  // how to make mirror ;-;
         public bool testConnection = false;
 
-        public int currentVersion = 140;     // Increment this and update changelog before compiling a new update
+        public int currentVersion = 1;     // Increment this and update changelog before compiling a new update
         public int latestChangelog = 0;
 
-        public string settingsPath = System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Ripple Server Switcher";
+        public string settingsPath = System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\osu!petit Server Switcher";
         public string hostsPath = Environment.GetEnvironmentVariable("windir") + "\\system32\\drivers\\etc\\hosts";
 
         public MainForm()
@@ -42,42 +43,42 @@ namespace RippleServerSwitcher
 
             // Create tooltips
             ToolTip OnOffTooltip = new ToolTip();
-            OnOffTooltip.SetToolTip(this.switchButton, "Switch between osu! and ripple");
+            OnOffTooltip.SetToolTip(this.switchButton, "Switch between osu! and osu!petit");
             ToolTip LocalRipwotTooltip = new ToolTip();
             LocalRipwotTooltip.SetToolTip(this.updateIPButton, "Get the right server IP address directly from the server.");
             ToolTip InstallCertificateTooltip = new ToolTip();
-            InstallCertificateTooltip.SetToolTip(this.installCertificateButton, "Install/Remove HTTPS certificate.\nYou must have install the certificate in order to connect\nto Ripple with stable/beta/cutting edge.\nYou don't need the certificate with fallback.");
+            InstallCertificateTooltip.SetToolTip(this.installCertificateButton, "Install/Remove HTTPS certificate.\nYou must have install the certificate in order to connect\nto osu!petit with stable/beta/cutting edge.\nYou don't need the certificate with fallback.");
 
             // Create settings directory (if it doesn't exists)
             Directory.CreateDirectory(settingsPath);
 
-            // Check if ripple.txt exists and if not create a default one
-            if (!File.Exists(settingsPath + "\\ripple.txt"))
+            // Check if petit.txt exists and if not create a default one
+            if (!File.Exists(settingsPath + "\\petit.txt"))
             {
-                File.AppendAllText(settingsPath + "\\ripple.txt", rippleIP + Environment.NewLine);
-                File.AppendAllText(settingsPath + "\\ripple.txt", mirrorIP + Environment.NewLine);
-                File.AppendAllText(settingsPath + "\\ripple.txt", "true");
-                File.AppendAllText(settingsPath + "\\ripple.txt", Convert.ToString(currentVersion-1)+Environment.NewLine);
+                File.AppendAllText(settingsPath + "\\petit.txt", petitIP + Environment.NewLine);
+                File.AppendAllText(settingsPath + "\\petit.txt", mirrorIP + Environment.NewLine);
+                File.AppendAllText(settingsPath + "\\petit.txt", "true");
+                File.AppendAllText(settingsPath + "\\petit.txt", Convert.ToString(currentVersion-1)+Environment.NewLine);
             }
 
-            // Read ripple.txt
-            string[] rippleTxt = File.ReadAllLines(settingsPath + "\\ripple.txt");
+            // Read petit.txt
+            string[] petitTxt = File.ReadAllLines(settingsPath + "\\petit.txt");
 
             // If there are 4 lines, it's not corrupter or memes
-            if (rippleTxt.Length == 4)
+            if (petitTxt.Length == 4)
             {
                 // Read IP
-                rippleIP = rippleTxt[0];
-                mirrorIP = rippleTxt[1];
+                petitIP = petitTxt[0];
+                mirrorIP = petitTxt[1];
 
                 // Check if testConnection is bool, if yes read it, otherwise use default settings
                 bool isBool;
-                Boolean.TryParse(rippleTxt[2], out isBool);
+                Boolean.TryParse(petitTxt[2], out isBool);
                 if (isBool)
-                    testConnection = Convert.ToBoolean(rippleTxt[2]);
+                    testConnection = Convert.ToBoolean(petitTxt[2]);
 
                 // Read latest changelog
-                latestChangelog = Convert.ToInt32(rippleTxt[3]);
+                latestChangelog = Convert.ToInt32(petitTxt[3]);
             }
             else
             {
@@ -105,8 +106,8 @@ namespace RippleServerSwitcher
             updateCertificateButton();
 
             // Check for updates
-            Thread ut = new Thread(updateThread);
-            ut.Start();
+            //Thread ut = new Thread(updateThread);
+            //ut.Start();
 
             // Check if we are using old server IP
             checkOldServerIP();
@@ -120,11 +121,11 @@ namespace RippleServerSwitcher
 
         public void saveSettings()
         {
-            // Save settings to ripple.txt
-            File.WriteAllText(settingsPath + "\\ripple.txt", rippleIP + Environment.NewLine);
-            File.AppendAllText(settingsPath + "\\ripple.txt", mirrorIP + Environment.NewLine);
-            File.AppendAllText(settingsPath + "\\ripple.txt", Convert.ToString(testConnection) + Environment.NewLine);
-            File.AppendAllText(settingsPath + "\\ripple.txt", Convert.ToString(latestChangelog));
+            // Save settings to petit.txt
+            File.WriteAllText(settingsPath + "\\petit.txt", petitIP + Environment.NewLine);
+            File.AppendAllText(settingsPath + "\\petit.txt", mirrorIP + Environment.NewLine);
+            File.AppendAllText(settingsPath + "\\petit.txt", Convert.ToString(testConnection) + Environment.NewLine);
+            File.AppendAllText(settingsPath + "\\petit.txt", Convert.ToString(latestChangelog));
         }
 
         public bool findServer()
@@ -141,25 +142,25 @@ namespace RippleServerSwitcher
                     // Check if current line is not commented and redirects to osu.ppy.sh
                     if ((Regex.Matches(hostsContent[i], "#").Count == 0) && (Regex.Matches(hostsContent[i], "osu.ppy.sh").Count > 0))
                     {
-                        // Our hosts points to ripple
-                        ripple = true;
-                        return ripple;
+                        // Our hosts points to petit
+                        petit = true;
+                        return petit;
                     }
                 }
             }
 
-            // Hosts doesn't contain any reference to osu.ppy.sh, we are not pointing to Ripple
-            ripple = false;
-            return ripple;
+            // Hosts doesn't contain any reference to osu.ppy.sh, we are not pointing to petit
+            petit = false;
+            return petit;
         }
 
         public bool updateServer()
         {
             // Check if IP is not empty and valid (I should rewrite this but idc for now)
-            if (rippleIP != "" && mirrorIP != "")
+            if (petitIP != "" && mirrorIP != "")
             {
                 IPAddress type;
-                if ( (IPAddress.TryParse(rippleIP, out type) && type.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork) && IPAddress.TryParse(mirrorIP, out type))
+                if ( (IPAddress.TryParse(petitIP, out type) && type.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork) && IPAddress.TryParse(mirrorIP, out type))
                 {
                     // Check read only
                     if(IsFileReadOnly(hostsPath))
@@ -193,14 +194,14 @@ namespace RippleServerSwitcher
                             }
                         }
 
-                        // Point to ripple if required
-                        if (ripple)
+                        // Point to osu!petit if required
+                        if (petit)
                         {
-                            File.AppendAllText(hostsPath, rippleIP + "   osu.ppy.sh" + Environment.NewLine);
-                            File.AppendAllText(hostsPath, rippleIP + "   c.ppy.sh" + Environment.NewLine);
-                            File.AppendAllText(hostsPath, rippleIP + "   c1.ppy.sh" + Environment.NewLine);
-                            File.AppendAllText(hostsPath, rippleIP + "   a.ppy.sh" + Environment.NewLine);
-                            File.AppendAllText(hostsPath, rippleIP + "   i.ppy.sh" + Environment.NewLine);
+                            File.AppendAllText(hostsPath, petitIP + "   osu.ppy.sh" + Environment.NewLine);
+                            File.AppendAllText(hostsPath, petitIP + "   c.ppy.sh" + Environment.NewLine);
+                            File.AppendAllText(hostsPath, petitIP + "   c1.ppy.sh" + Environment.NewLine);
+                            File.AppendAllText(hostsPath, petitIP + "   a.ppy.sh" + Environment.NewLine);
+                            File.AppendAllText(hostsPath, petitIP + "   i.ppy.sh" + Environment.NewLine);
                             File.AppendAllText(hostsPath, mirrorIP + "   bm6.ppy.sh" + Environment.NewLine);
                         }
 
@@ -214,21 +215,21 @@ namespace RippleServerSwitcher
                 }
                 else
                 {
-                    statusLabel.Text = "Invalid Ripple/Mirror IP address";
+                    statusLabel.Text = "Invalid osu!petit/petit!mirror IP address";
                     return false;
                 }
             }
             else
             {
-                statusLabel.Text = "Invalid Ripple/Mirror IP address";
+                statusLabel.Text = "Invalid osu!petit/petit!mirror IP address";
                 return false;
             }
         }
 
         public void updateStatusLabel()
         {
-            // Update statusLabel based on ripple variable
-            statusLabel.Text = ripple ? "You are playing on Ripple server."+Environment.NewLine+IPTextBox.Text+" - "+MirrorIPTextBox.Text : "You are playing on Osu! server.";
+            // Update statusLabel based on osu!petit variable
+            statusLabel.Text = petit ? "You are playing on osu!petit server."+Environment.NewLine+IPTextBox.Text+" - "+MirrorIPTextBox.Text : "You are playing on osu! server.";
             // Ayy k maron sn pigor xd
             updateJennaWarning();
         }
@@ -236,7 +237,7 @@ namespace RippleServerSwitcher
         public void updateJennaWarning()
         {
             if (Application.OpenForms.Count >= 1)
-                if (rippleIP == "127.0.0.1")
+                if (petitIP == "127.0.0.1")
                     Application.OpenForms[0].Height = 330;
                 else
                     Application.OpenForms[0].Height = 202;
@@ -245,7 +246,7 @@ namespace RippleServerSwitcher
         public void updateSettings()
         {
             // Update textBoxes in settings group
-            IPTextBox.Text = rippleIP;
+            IPTextBox.Text = petitIP;
             MirrorIPTextBox.Text = mirrorIP;
             //testCheckBox.Checked = testConnection;
         }
@@ -253,7 +254,7 @@ namespace RippleServerSwitcher
         private void IPTextBox_TextChanged(object sender, EventArgs e)
         {
             // Settings: Update IP address
-            rippleIP = IPTextBox.Text;
+            petitIP = IPTextBox.Text;
         }
 
         private void MirrorIPTextBox_TextChanged(object sender, EventArgs e)
@@ -273,29 +274,29 @@ namespace RippleServerSwitcher
             // Get current hosts status, because it might have changed
             findServer();
 
-            // Switch between ripple/osu!, write hosts and update label
-            ripple = !ripple;
+            // Switch between osu!petit/osu!, write hosts and update label
+            petit = !petit;
             if (updateServer())
                 updateStatusLabel();
 
-            // Connection check if we are on ripple
-            //if (ripple && testConnection)
-            //    checkRippleConnection();
+            // Connection check if we are on osu!petit
+            //if (petit && testConnection)
+            //    checkPetitConnection();
         }
 
-        public void checkRippleConnection()
+        public void checkPetitConnection()
         {
-            // Checks if osu.ppy.sh actually points to ripple
+            // Checks if osu.ppy.sh actually points to osu!petit
             try
             {
                 //WebClient wc = new WebClient();
-                //string s = wc.DownloadString("http://osu.ppy.sh/");
+                //string s = wc.DownloadString("https://osu.ppy.sh/");
 
                 string s;
                 using (WebClient client = new WebClient())
                 {
                     byte[] response =
-                    client.UploadValues("http://osu.ppy.sh/", new NameValueCollection()
+                    client.UploadValues("https://osu.ppy.sh/", new NameValueCollection()
                     {
                         { "switcher", "true" },
                     });
@@ -303,14 +304,14 @@ namespace RippleServerSwitcher
                 }
 
                 if (s == "ok")
-                    updateStatusLabel();    // This changes statuslabel.text to "You are playing on Ripple"
+                    updateStatusLabel();    // This changes statuslabel.text to "You are playing on osu!petit"
                 else
-                    statusLabel.Text = "Error while connecting to Ripple.";
+                    statusLabel.Text = "Error while connecting to osu!petit.";
             }
             catch
             {
                 // 4xx / 5xx error
-                statusLabel.Text = "Error while connecting to Ripple.";
+                statusLabel.Text = "Error while connecting to osu!petit.";
             }
         }
 
@@ -367,16 +368,16 @@ namespace RippleServerSwitcher
             {
                 // Get latest version from MinUpdater
                 WebClient client = new WebClient();
-                var latestVersionID = Int32.Parse(client.DownloadString("https://mu.nyodev.xyz/ver.php?id=18"));
+                var latestVersionID = Int32.Parse(client.DownloadString("https://ver.osu.life/?ss"));
 
                 // Compare versions
                 if (latestVersionID > currentVersion)
                 {
                     // New update available
-                    DialogResult dialogResult = MessageBox.Show("There is a new version of Ripple Server Switcher available, do you want to download it now?", "New update available!", MessageBoxButtons.YesNo);
+                    DialogResult dialogResult = MessageBox.Show("There is a new version of osu!petit Server Switcher available, do you want to download it now?", "New update available!", MessageBoxButtons.YesNo);
                     if (dialogResult == DialogResult.Yes)
                     {
-                        Process.Start("https://mu.nyodev.xyz/upd.php?id=18");
+                        Process.Start("https://ver.osu.life/?ss");
                         Environment.Exit(0);
                     }
                 }
@@ -391,12 +392,12 @@ namespace RippleServerSwitcher
         {
             try
             {
-                // Get server ip from ip.ripple.moe
+                // Get server ip from ip.osu.life
                 WebClient client = new WebClient();
-                string[] remoteIPs = client.DownloadString("http://ip.ripple.moe").TrimEnd('\r', '\n').Split('\n');
+                string[] remoteIPs = client.DownloadString("https://ip.osu.life").TrimEnd('\r', '\n').Split('\n');
 
-                // Ripple IP
-                if (rippleIP != remoteIPs[0])
+                // osu!petit IP
+                if (petitIP != remoteIPs[0])
                 {
                     IPTextBox.Text = remoteIPs[0];
                     if (updateServer())
@@ -421,9 +422,9 @@ namespace RippleServerSwitcher
         {
             try
             {
-                // Get old ip from ip.ripple.moe
+                // Get old ip from ip.osu.life
                 WebClient client = new WebClient();
-                var oldIPs = client.DownloadString("http://ip.ripple.moe/oldip.txt").Split('\n');
+                var oldIPs = client.DownloadString("https://ip.osu.life/oldip.txt").Split('\n');
                 int l = oldIPs.Length;
                 for (int i=0; i< l; i++)
                 {
@@ -469,15 +470,18 @@ namespace RippleServerSwitcher
 
         private void updateCertificateButton(bool __installed = true, bool check = true)
         {
-            bool installed = __installed;
+            bool installed_root = __installed;
+            bool installed_internal = __installed;
             if (check)
             {
                 X509Store store = new X509Store(StoreName.Root, StoreLocation.CurrentUser);
                 store.Open(OpenFlags.ReadWrite);
-                X509Certificate2Collection certs = store.Certificates.Find(X509FindType.FindBySubjectName, "Ripple", true);
-                installed = certs.Count > 0 ? true : false;
+                X509Certificate2Collection root_certs = store.Certificates.Find(X509FindType.FindBySubjectName, "Akari Networks SHA256 Root CA", true);
+                installed_root = root_certs.Count > 0 ? true : false;
+                X509Certificate2Collection inter_certs = store.Certificates.Find(X509FindType.FindBySubjectName, "Akari Networks Internal Security CA", true);
+                installed_internal = inter_certs.Count > 0 ? true : false;
             }
-            if (installed)
+            if (installed_root && installed_internal)
             {
                 installCertificateButton.Text = "Remove certificate";
                 installCertificateButton.Font = new Font(installCertificateButton.Font.Name, installCertificateButton.Font.Size, FontStyle.Regular);
@@ -494,12 +498,12 @@ namespace RippleServerSwitcher
             // Check and install certificate
             X509Store store = new X509Store(StoreName.Root, StoreLocation.CurrentUser);
             store.Open(OpenFlags.ReadWrite);
-            X509Certificate2Collection certs = store.Certificates.Find(X509FindType.FindBySubjectName, "Ripple", true);
+            X509Certificate2Collection certs = store.Certificates.Find(X509FindType.FindBySubjectName, "Akari Networks SHA256 Root CA", true);
 
             if (certs.Count > 0)
             {
                 // Certificate already installed, remove it
-                DialogResult yn = MessageBox.Show("Are you sure you want to remove ripple's HTTPS certificate?\nThere's no need to remove it, you'll be able to browse both ripple and osu!\nwithout any problem even if the certificate is installed and the switcher is off.", "Ripple certificate installer", MessageBoxButtons.YesNo);
+                DialogResult yn = MessageBox.Show("Are you sure you want to remove osu!petit's HTTPS certificate?\nThere's no need to remove it, you'll be able to browse both osu!petit and osu!\nwithout any problem even if the certificate is installed and the switcher is off.", "osu!petit certificate installer", MessageBoxButtons.YesNo);
                 if (yn == DialogResult.No)
                 {
                     store.Close();
@@ -511,11 +515,12 @@ namespace RippleServerSwitcher
                         store.Remove(certs[0]);
 
                     updateCertificateButton(false, false);
-                    MessageBox.Show("Certificate removed!", "Ripple certificate installer");
+
+                    MessageBox.Show("Certificate removed!", "osu!petit certificate installer");
                 }
                 catch
                 {
-                    MessageBox.Show("Error while removing certificate.", "Ripple certificate installer");
+                    MessageBox.Show("Error while removing certificate.", "osu!petit certificate installer");
                 }
             }
             else
@@ -536,20 +541,20 @@ namespace RippleServerSwitcher
                         store.Add(cert);
 
                     updateCertificateButton(true, false);
-                    MessageBox.Show("Certificate installed! Try connecting to Ripple with beta/stable/cutting edge", "Ripple certificate installer");
+                    MessageBox.Show("Certificate installed! Try connecting to osu!petit with beta/stable/cutting edge", "osu!petit certificate installer");
 
                     // Delete temp certificate file
                     File.Delete(certFilePath);
                 }
                 catch
                 {
-                    MessageBox.Show("Error while installing certificate.", "Ripple certificate installer");
+                    MessageBox.Show("Error while installing certificate.", "osu!petit certificate installer");
                 }
             }
 
             store.Close();
         }
-
+        
         private void localButton_Click(object sender, EventArgs e)
         {
             if (IPTextBox.Text == "127.0.0.1")
@@ -557,11 +562,11 @@ namespace RippleServerSwitcher
             else
                 IPTextBox.Text = "127.0.0.1";
 
-            // Switch between ripple/osu!, write hosts and update label
+            // Switch between osu!petit/osu!, write hosts and update label
             if (updateServer())
                 updateStatusLabel();
 
-            ripple = true;
+            petit = true;
         }
     }
 }

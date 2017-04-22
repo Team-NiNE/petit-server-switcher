@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace RippleServerSwitcher
+namespace PetitServerSwitcher
 {
     public partial class ChangelogForm : Form
     {
