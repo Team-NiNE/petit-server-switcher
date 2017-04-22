@@ -15,7 +15,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Collections.Specialized;
 using System.Security.Cryptography.X509Certificates;
-using rss.Properties;
+using ss.Properties;
 using System.Resources;
 
 namespace PetitServerSwitcher
@@ -28,7 +28,6 @@ namespace PetitServerSwitcher
         public bool testConnection = false;
 
         public int currentVersion = 1;     // Increment this and update changelog before compiling a new update
-        public int latestChangelog = 0;
 
         public string settingsPath = System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\osu!petit Server Switcher";
         public string hostsPath = Environment.GetEnvironmentVariable("windir") + "\\system32\\drivers\\etc\\hosts";
@@ -58,14 +57,13 @@ namespace PetitServerSwitcher
                 File.AppendAllText(settingsPath + "\\petit.txt", petitIP + Environment.NewLine);
                 File.AppendAllText(settingsPath + "\\petit.txt", mirrorIP + Environment.NewLine);
                 File.AppendAllText(settingsPath + "\\petit.txt", "true");
-                File.AppendAllText(settingsPath + "\\petit.txt", Convert.ToString(currentVersion-1)+Environment.NewLine);
             }
 
             // Read petit.txt
             string[] petitTxt = File.ReadAllLines(settingsPath + "\\petit.txt");
 
-            // If there are 4 lines, it's not corrupter or memes
-            if (petitTxt.Length == 4)
+            // If there are 3 lines, it's not corrupter or memes
+            if (petitTxt.Length == 3)
             {
                 // Read IP
                 petitIP = petitTxt[0];
@@ -76,24 +74,10 @@ namespace PetitServerSwitcher
                 Boolean.TryParse(petitTxt[2], out isBool);
                 if (isBool)
                     testConnection = Convert.ToBoolean(petitTxt[2]);
-
-                // Read latest changelog
-                latestChangelog = Convert.ToInt32(petitTxt[3]);
             }
             else
             {
                 // Something went wrong, use default settings
-            }
-
-            // Check if we have to show a changelog
-            if (latestChangelog < currentVersion)
-            {
-                // Show new changelog
-                ChangelogForm cf = new ChangelogForm();
-                cf.ShowDialog();
-
-                // Update latest changelog
-                latestChangelog = currentVersion;
             }
 
             // Update settings
@@ -125,7 +109,6 @@ namespace PetitServerSwitcher
             File.WriteAllText(settingsPath + "\\petit.txt", petitIP + Environment.NewLine);
             File.AppendAllText(settingsPath + "\\petit.txt", mirrorIP + Environment.NewLine);
             File.AppendAllText(settingsPath + "\\petit.txt", Convert.ToString(testConnection) + Environment.NewLine);
-            File.AppendAllText(settingsPath + "\\petit.txt", Convert.ToString(latestChangelog));
         }
 
         public bool findServer()
@@ -567,6 +550,11 @@ namespace PetitServerSwitcher
                 updateStatusLabel();
 
             petit = true;
+        }
+
+        private void genuineTheme1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -152,6 +152,7 @@ namespace PetitServerSwitcher
             this.genuineTheme1.TabIndex = 0;
             this.genuineTheme1.Text = "osu!petit Server Switcher";
             this.genuineTheme1.TransparencyKey = System.Drawing.Color.Fuchsia;
+            this.genuineTheme1.Click += new System.EventHandler(this.genuineTheme1_Click);
             // 
             // localButton
             // 
@@ -258,7 +259,7 @@ namespace PetitServerSwitcher
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(113, 19);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(62, 13);
+            this.label2.Size = new System.Drawing.Size(93, 13);
             this.label2.TabIndex = 6;
             this.label2.Text = "petit!mirror IP:";
             // 
@@ -269,7 +270,7 @@ namespace PetitServerSwitcher
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(2, 19);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(63, 13);
+            this.label1.Size = new System.Drawing.Size(77, 13);
             this.label1.TabIndex = 4;
             this.label1.Text = "osu!petit IP:";
             // 
@@ -421,11 +422,11 @@ namespace PetitServerSwitcher
             this.label4.ForeColor = System.Drawing.Color.Gold;
             this.label4.Location = new System.Drawing.Point(15, 18);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(199, 78);
+            this.label4.Size = new System.Drawing.Size(213, 78);
             this.label4.TabIndex = 2;
-            this.label4.Text = "You are playing on a local server!\r\nThat\'s only for osu!petit developers!\r\nYou won\'t" +
-    " be able to connect\r\nif you leave the switcher in the\r\ncurrent state. Please pre" +
-    "ss the\r\nLocal/Remote button.";
+            this.label4.Text = "You are playing on a local server!\r\nThat\'s only for osu!petit developers!\r\nYou wo" +
+    "n\'t be able to connect\r\nif you leave the switcher in the\r\ncurrent state. Please " +
+    "press the\r\nLocal/Remote button.";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // MainForm

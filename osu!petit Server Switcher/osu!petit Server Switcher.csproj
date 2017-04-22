@@ -7,8 +7,8 @@
     <ProjectGuid>{531FCBC2-A61A-48B3-A296-C7A39E7974AD}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>rss</RootNamespace>
-    <AssemblyName>rss</AssemblyName>
+    <RootNamespace>ss</RootNamespace>
+    <AssemblyName>osu!petit Server Switcher</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -24,6 +24,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
+    <AutorunEnabled>true</AutorunEnabled>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>0.0.0.0</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
@@ -47,22 +48,23 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>1</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>ripple-server-switcher-icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>0B0D1F47C13C90A4DF83D67D9CBD708DDFD78408</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>F75548109069E95E4EFDB0F6595A819302F4857E</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>RippleServerSwitcher_ChiaveTemporanea.pfx</ManifestKeyFile>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>false</SignManifests>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -84,12 +86,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChangelogForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ChangelogForm.Designer.cs">
-      <DependentUpon>ChangelogForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -109,9 +105,6 @@
     <Compile Include="Themebase.cs">
       <SubType>Component</SubType>
     </Compile>
-    <EmbeddedResource Include="ChangelogForm.resx">
-      <DependentUpon>ChangelogForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -132,7 +125,6 @@
     </Compile>
     <None Include="Resources\certificate.cer" />
     <None Include="Resources\ripplepkcs.p7b" />
-    <None Include="RippleServerSwitcher_ChiaveTemporanea.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -143,7 +135,7 @@
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 e x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
